@@ -12,3 +12,4 @@ In Progress:
  - Arduino Code
  - Assembly Instructions
 
+![IMG_2291](https://github.com/user-attachments/assets/81e604b8-b517-41c6-9361-e70dec9d2128)
