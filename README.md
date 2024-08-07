@@ -5,11 +5,11 @@ Hi!  This repo is for showing off the files for my open source drum kit, the Pol
 Currently available:
  - PCB Mockup
  - PCB Component Sheet
+ - The actual PCB
+ - Arduino Code
 
 In Progress:
- - The actual PCB
  - CAD Models
- - Arduino Code
  - Assembly Instructions
 
 ![IMG_2291](https://github.com/user-attachments/assets/81e604b8-b517-41c6-9361-e70dec9d2128)
