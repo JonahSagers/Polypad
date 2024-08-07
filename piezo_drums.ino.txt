@@ -1,0 +1,113 @@
+```/*
+  Knock Sensor
+
+  This sketch reads a piezo element to detect a knocking sound.
+  It reads an analog pin and compares the result to a set threshold.
+  If the result is greater than the threshold, it writes "knock" to the serial
+  port, and toggles the LED on pin 13.
+
+  The circuit:
+	- positive connection of the piezo attached to analog in 0
+	- negative connection of the piezo attached to ground
+	- 1 megohm resistor attached from analog in 0 to ground
+
+  created 25 Mar 2007
+  by David Cuartielles <http://www.0j0.org>
+  modified 30 Aug 2011
+  by Tom Igoe
+
+  This example code is in the public domain.
+
+  https://www.arduino.cc/en/Tutorial/BuiltInExamples/Knock
+*/
+
+#include <XInput.h>
+// these constants won't change:
+const int ledPin = 13;       // LED connected to digital pin 13
+const int piezo1 = A0;  // the piezo is connected to analog pin 0
+const int piezo2 = A1;  // the piezo is connected to analog pin 1
+const int piezo3 = A2;  // the piezo is connected to analog pin 2
+const int piezo4 = A3;  // the piezo is connected to analog pin 2
+const int buttonStart = 15;
+const int threshold = 25;   // threshold value to decide when the detected sound is a knock or not
+const int sustain = 3;
+
+// these variables will change:
+int piezoValue1 = 0;  // variable to store the value read from the sensor pin
+int piezoValue2 = 0;  // variable to store the value read from the sensor pin
+int piezoValue3 = 0;  // variable to store the value read from the sensor pin
+int piezoValue4 = 0;  // variable to store the value read from the sensor pin
+int buttonState = 0;
+int latch1 = 0;
+int latch2 = 0;
+int latch3 = 0;
+int latch4 = 0;
+
+void setup() {
+  XInput.begin();
+  pinMode(15, INPUT_PULLUP);
+  Serial.begin(9600);       // use the serial port
+}
+
+void loop() {
+  // read the sensor and store it in the variable sensorReading:
+  piezoValue1 = analogRead(piezo1);
+  piezoValue2 = analogRead(piezo2);
+  piezoValue3 = analogRead(piezo3);
+  piezoValue4 = analogRead(piezo4);
+  buttonState = digitalRead(buttonStart);
+  // Serial.print(piezoValue1);
+  // Serial.print(",");
+  // Serial.print(piezoValue2);
+  // Serial.print(",");
+  // Serial.print(piezoValue3);
+  // Serial.print(",");
+  // Serial.println(piezoValue4);
+  if(piezoValue1 > threshold && latch1 == 0){
+    XInput.press(BUTTON_B);
+    latch1 = sustain;
+  } else if(piezoValue1 < threshold){
+    if(latch1 > 0){
+      latch1 -= 1;
+    } else {
+      XInput.release(BUTTON_B);
+    }
+  }
+  if(piezoValue2 > threshold && latch2 == 0){
+    XInput.press(BUTTON_Y);
+    latch2 = sustain;
+  } else if(piezoValue2 < threshold){
+    if(latch2 > 0){
+      latch2 -= 1;
+    } else {
+      XInput.release(BUTTON_Y);
+    }
+  }
+  if(piezoValue3 > threshold && latch3 == 0){
+    XInput.press(BUTTON_X);
+    latch3 = sustain;
+  } else if(piezoValue3 < threshold){
+    if(latch3 > 0){
+      latch3 -= 1;
+    } else {
+      XInput.release(BUTTON_X);
+    }
+  }
+  if(piezoValue4 > threshold && latch4 == 0){
+    XInput.press(BUTTON_A);
+    latch4 = sustain;
+  } else if(piezoValue4 < threshold){
+    if(latch4 > 0){
+      latch4 -= 1;
+    } else {
+      XInput.release(BUTTON_A);
+    }
+  }
+  if(buttonState == 0){
+    XInput.press(BUTTON_START);
+  } else {
+    XInput.release(BUTTON_START);
+  }
+  delay(10);  // delay to avoid overloading the serial port buffer
+}
+```
